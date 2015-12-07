@@ -1,0 +1,171 @@
+import java.util.NoSuchElementException;
+
+public class DoubleLinkedList implements List {
+
+	private Node root;
+	private Node tail;
+	private int size;
+
+	public DoubleLinkedList() {
+		root = null;
+		tail = null;
+	}
+
+	public DoubleLinkedList(DoubleLinkedList other) {
+		this.root = other.root;
+		this.tail = other.tail;
+		this.size = other.size;
+	}
+
+	@Override
+	public void add(int value) {
+		Node newNode = new Node(value);
+
+		if (isEmpty()) {
+			root = newNode;
+			tail = newNode;
+			
+		} else {
+			this.tail.setNext(newNode);
+			newNode.setPrevious(this.tail);
+			this.tail = newNode;
+		}
+		
+		size++;
+	}
+
+	@Override
+	public void insert(int index, int value) {
+	
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		if (index == size) {
+			add(value);
+		} else {
+			Node newNode = new Node(value);
+
+			Node current = root;
+			Node parent = null;
+			int cnt = 0;
+
+			while (cnt++ < index) {
+				parent = current;
+				current = current.getNext();
+			}
+
+			if (current != root) {
+			
+				if (parent != null) {
+					parent.setNext(newNode);
+					newNode.setPrevious(parent);
+				}
+				newNode.setNext(current);
+				current.setPrevious(newNode);
+				
+			} else {
+				newNode.setNext(current);
+				current.setPrevious(newNode);
+				root = newNode;
+			}
+			size++;
+		}
+	}
+
+	@Override
+	public void remove() {
+		remove(size - 1);
+	}
+
+	@Override
+	public void remove(int index) {
+		if (isEmpty()) {
+			throw new NoSuchElementException("The list is empty!");
+		}
+		
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		if (index == size - 1) {
+			if (index != 0) {
+				tail.getPrevious().setNext(null);
+				tail = tail.getPrevious();
+				size--;
+				return;
+			}
+		}
+		
+		Node current = root;
+		Node parent = null;
+		int cnt = 0;
+
+		while (cnt++ < index) {
+			parent = current;
+			current = current.getNext();
+		}
+
+		if (current != root) {
+			if (parent != null) {
+				parent.setNext(current.getNext());
+				if (current.getNext() != null) {
+					current.getNext().setPrevious(parent);
+				}
+			}
+			
+			current.setNext(null);
+			current.setPrevious(null);
+			
+		} else {
+			root = current.getNext();
+			current.setNext(null);
+			current.setPrevious(null);
+		}
+		size--;
+	}
+
+	@Override
+	public int getSize() {
+		return this.size;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return root == null;
+	}
+
+	@Override
+	public String toString() {
+	
+		StringBuilder result = new StringBuilder();
+		Node current = root;
+
+		if (current != null) {
+			result.append(current.getData());
+			current = current.getNext();
+		}
+
+		while (current != null) {
+			result.append(" ").append(current.getData());
+			current = current.getNext();
+		}
+		return result.toString();
+	}
+
+	@Override
+	public int getHead() {
+		if (isEmpty()) {
+			throw new NoSuchElementException("The list is empty!");
+		}
+		return root.getData();
+	}
+
+	@Override
+	public int getTail() {
+		if (isEmpty()) {
+			throw new NoSuchElementException("The list is empty!");
+		}
+		return tail.getData();
+	}
+}
