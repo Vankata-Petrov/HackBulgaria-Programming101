@@ -1,5 +1,8 @@
 
 public class BST {
+	
+	//This is a preliminary review. Some more comments could be added. This review will be extended.
+	
 	private class Node {
 		private int value;
 		private Node right;
