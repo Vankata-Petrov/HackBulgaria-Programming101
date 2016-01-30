@@ -1,0 +1,103 @@
+import java.io.*;
+import java.nio.CharBuffer;
+import java.nio.file.Path;
+
+public class FileUtils {
+	
+	private FileUtils(){
+		
+	}
+	private static FileUtils mInstance;
+	
+	public static FileUtils getInstance(){
+		if(mInstance==null){
+			mInstance=new FileUtils();
+		}
+		return mInstance;
+	}
+	
+	static String readFrom(File file) throws IOException{
+		StringBuilder input = new StringBuilder();
+		BufferedReader inputStream = null;
+		try {
+			inputStream = new BufferedReader(new FileReader(file));
+			String character;
+			while ((character = inputStream.readLine()) != null) {
+				input.append(character);
+				input.append(System.lineSeparator());
+			}
+		} finally {
+			if (inputStream != null) {
+				inputStream.close();
+			}
+		}
+		return input.toString();
+	}
+	
+	static String readFrom(Path path) throws IOException {
+		return readFrom(path.toFile());
+	}
+	
+	static WordCountResult wordCount(File file) throws IOException{
+		BufferedReader inputStream=null;
+		int words=0;
+		int lines=0;
+		int characters=0;
+		try{
+			inputStream=new BufferedReader(new FileReader(file));
+			String line;
+			while((line=inputStream.readLine())!=null){
+				lines++;
+				line.replaceAll("\\t", "");
+				String[] myWords=line.replaceAll("\\s+", " ").split(" ");
+				words+=myWords.length;
+				
+				for(String word:myWords){
+					characters+=word.length();
+				}
+			}
+		}finally{
+			if(inputStream!=null){
+				inputStream.close();
+			}
+		}
+		return new WordCountResult(words,lines,characters);
+	}
+	
+	static WordCountResult wordCount(Path path) throws IOException{
+		return wordCount(path.toFile());
+	}
+	static String readInput(Path path) {
+	    StringBuffer buffer = new StringBuffer();
+	    try {
+	        FileInputStream fis = new FileInputStream(path.toFile());
+	        InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+	        Reader in = new BufferedReader(isr);
+	        int ch;
+	        while ((ch = in.read()) > -1) {
+	            buffer.append((char)ch);
+	        }
+	        in.close();
+	        return buffer.toString();
+	    } 
+	    catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	static void fixEncoding(String str) throws IOException{
+		FileInputStream input=null;
+		try{
+			FileOutputStream fos = new FileOutputStream("test.txt");
+	        Writer out = new OutputStreamWriter(fos, "UTF8");
+	        out.write(str);
+	        out.close();
+		}finally{
+			if(input!=null){
+				input.close();
+			}
+		}
+		
+	}
+}

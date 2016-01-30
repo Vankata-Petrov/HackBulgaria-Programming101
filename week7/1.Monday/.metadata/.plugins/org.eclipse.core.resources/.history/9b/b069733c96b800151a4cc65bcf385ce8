@@ -1,0 +1,13 @@
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		File file=new File("/media/vankata/ARHIVE/Downloads/TestJavaTask/testData/A/a");
+		WordCountResult rs=FileUtils.wordCount(file);
+		System.out.println("");;
+	}
+
+}

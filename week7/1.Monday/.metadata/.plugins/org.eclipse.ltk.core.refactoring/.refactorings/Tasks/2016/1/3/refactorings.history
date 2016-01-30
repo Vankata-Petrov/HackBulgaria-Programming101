@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;character&apos; in &apos;FileUtils.readFrom(...)&apos; to &apos;line&apos;&#x0A;- Original project: &apos;Tasks&apos;&#x0A;- Original element: &apos;FileUtils.readFrom(File).character&apos;&#x0A;- Renamed element: &apos;character&apos;&#x0A;- Update references to refactored element" description="Rename local variable &apos;character&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{FileUtils.java[FileUtils~readFrom~QFile;@character!497!513!504!512!QString;!0!false" name="line" references="true" stamp="1452707686151" version="1.0"/>
+</session>

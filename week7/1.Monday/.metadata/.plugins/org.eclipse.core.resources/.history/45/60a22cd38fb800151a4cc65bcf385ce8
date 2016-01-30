@@ -1,0 +1,38 @@
+import java.io.*;
+import java.nio.file.Path;
+
+public class FileUtils {
+	static String readFrom(File file) throws IOException {
+		StringBuilder input = new StringBuilder();
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(file);
+			int character = 0;
+			while ((character = inputStream.read()) != -1) {
+				input.append(character);
+			}
+		} finally {
+			if (inputStream != null) {
+				inputStream.close();
+			}
+		}
+		return input.toString();
+	}
+
+	static String readFrom(Path path) throws IOException {
+		StringBuilder input = new StringBuilder();
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(path.toString());
+			int character = 0;
+			while ((character = inputStream.read()) != -1) {
+				input.append(character);
+			}
+		} finally {
+			if (inputStream != null) {
+				inputStream.close();
+			}
+		}
+		return input.toString();
+	}
+}

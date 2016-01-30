@@ -1,0 +1,6 @@
+
+public class WordCountResult {
+	int wordsCount;
+	int linesCount;
+	int charactersCount;
+}

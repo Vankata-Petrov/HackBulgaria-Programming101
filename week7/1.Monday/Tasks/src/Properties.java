@@ -1,0 +1,30 @@
+import java.io.BufferedReader;
+import java.io.*;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Properties {
+	public static Map<String, String> parseProperties(File file) throws IOException {
+		BufferedReader inputStream = null;
+		String key=null;
+		String value=null;
+		Map<String,String> result=new HashMap<>();
+		try {
+			inputStream = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = inputStream.readLine()) != null) {
+				if (!line.startsWith("#")) {
+					key=line.substring(0, line.indexOf("="));
+					value=line.substring(line.indexOf("=")+1);
+					result.put(key.trim(), value.trim());
+				}
+			}
+			return result;
+		} finally {
+			if (inputStream != null) {
+				inputStream.close();
+			}
+		}
+	}
+}

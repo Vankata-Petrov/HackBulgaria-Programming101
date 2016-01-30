@@ -1,0 +1,73 @@
+import java.io.*;
+import java.nio.file.Path;
+
+public class FileUtils {
+	
+	private FileUtils(){
+		
+	}
+	private static FileUtils mInstance;
+	
+	public static FileUtils getInstance(){
+		if(mInstance==null){
+			mInstance=new FileUtils();
+		}
+		return mInstance;
+	}
+	static String readFrom(File file) throws FileNotFoundException {
+		StringBuilder input = new StringBuilder();
+		BufferedReader inputStream = null;
+		try {
+			inputStream = new BufferedReader(new FileReader(file));
+			String character;
+			while ((character = inputStream.readLine()) != -1) {
+				input.append(character);
+			}
+		} finally {
+			if (inputStream != null) {
+				inputStream.close();
+			}
+		}
+		return input.toString();
+	}
+
+	static String readFrom(Path path) throws IOException {
+		StringBuilder input = new StringBuilder();
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(path.toString());
+			int character = 0;
+			while ((character = inputStream.read()) != -1) {
+				input.append(character);
+			}
+		} finally {
+			if (inputStream != null) {
+				inputStream.close();
+			}
+		}
+		return input.toString();
+	}
+	
+	static WordCountResult wordCount(File file) throws IOException{
+		BufferedReader inputStream=null;
+		int words=0;
+		int lines=0;
+		int characters=0;
+		try{
+			inputStream=new BufferedReader(new FileReader(file));
+			int character;
+			while((character=inputStream.read())!=-1){
+				if(character==(int)"")
+			}
+		}finally{
+			if(inputStream!=null){
+				inputStream.close();
+			}
+		}
+		return null;
+	}
+	
+	static WordCountResult wordCount(Path path) throws IOException{
+		return null;
+	}
+}
