@@ -1,0 +1,20 @@
+import java.util.LinkedList;
+
+public class BlockingQueue<T> {
+	private LinkedList<T> queue=new LinkedList<T>();
+	
+	public boolean add(T key){
+		queue.add(key);
+		if(queue.size()==1) {
+			notifyAll();
+		}
+		return true;
+	}
+	
+	public T poll() throws InterruptedException{
+		while(queue.size()==0){
+			this.wait();
+		}
+		return queue.poll();
+	}
+}

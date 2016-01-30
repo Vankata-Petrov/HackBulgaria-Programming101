@@ -1,0 +1,25 @@
+
+public class Main {
+	/*private static class MyThread extends Thread{
+		public void run(){
+			System.out.println("Thread");
+		}
+	}
+*/
+	private static class MyThread2 implements Runnable{
+		public void run(){
+			System.out.println("Im a Thread");
+		}
+	}
+	public static void main(String[] args) {
+		/*MyThread thread=new MyThread();
+		thread.start();
+		*/
+		MyThread2 thread2=new MyThread2();
+		thread2.run();
+		System.out.println("Im the main Thread");
+		/*Example:*/
+		//System.out.println(Example.valueOfLife);
+	}
+
+}

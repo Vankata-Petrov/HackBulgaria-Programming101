@@ -1,0 +1,11 @@
+
+public class Counter {
+	public static int c;
+	
+	public static void increment(){
+		c++;
+	}
+	public static int getCounter(){
+		return c;
+	}
+}

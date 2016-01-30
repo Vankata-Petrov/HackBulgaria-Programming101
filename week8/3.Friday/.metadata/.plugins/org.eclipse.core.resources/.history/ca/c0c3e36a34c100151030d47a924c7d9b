@@ -1,0 +1,18 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Counter {
+	public int c=0;//=new AtomicInteger(0);
+	
+	public void increment(){
+		//c.incrementAndGet();
+		c++;
+	}
+	public void decrement(){
+		//c.decrementAndGet();
+		c--;
+	}
+	public int getCounter(){
+		//return c.get();
+		return c;
+	}
+}

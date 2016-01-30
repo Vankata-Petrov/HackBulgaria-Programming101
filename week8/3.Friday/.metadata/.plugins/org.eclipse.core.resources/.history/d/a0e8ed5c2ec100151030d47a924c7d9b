@@ -1,0 +1,9 @@
+
+public class Divisor implements Runnable {
+
+	@Override
+	public void run() {
+		System.out.println("Im Runnable");
+	}
+
+}

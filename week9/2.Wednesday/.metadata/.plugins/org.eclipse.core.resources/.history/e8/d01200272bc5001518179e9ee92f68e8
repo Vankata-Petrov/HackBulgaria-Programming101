@@ -1,0 +1,25 @@
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+@AnnotationInterface(author = "Ivan", related = {})
+public class ClassWithAnnotation {
+	public static void print() {
+		Annotation[] annotations = ClassWithAnnotation.class.getDeclaredAnnotations();
+		for (Annotation annotation : annotations) {
+			System.out.println(annotation.toString());
+		}
+		System.out.println(ClassWithAnnotation.class.getDeclaredAnnotations()[0].annotationType().getSimpleName());
+		Method[] methods = ClassWithAnnotation.class.getMethods();
+		System.out.println(methods.length);
+		for (Method m : methods)
+		{
+			System.out.println(methods.length);
+		        if (m.isAnnotationPresent(AnnotationInterface.class))
+		    {
+		        AnnotationInterface ta = m.getAnnotation(AnnotationInterface.class);
+		        System.out.println(ta.author());
+		    }
+		}
+	}
+}

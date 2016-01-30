@@ -1,0 +1,11 @@
+import java.lang.annotation.Annotation;
+
+@AnnotationInterface(author = "", related = {})
+public class ClassWithAnnotation {
+	public static void print() {
+		Annotation[] annotations = ClassWithAnnotation.class.getDeclaredAnnotations();
+		for (Annotation annotation : annotations) {
+			//System.out.println(annotation.toString());
+		}
+	}
+}

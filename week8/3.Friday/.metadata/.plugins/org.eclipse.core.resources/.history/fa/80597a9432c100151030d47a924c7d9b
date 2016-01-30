@@ -1,0 +1,14 @@
+
+public class Counter {
+	public static int c=0;
+	
+	public synchronized static void increment(){
+		c++;
+	}
+	public synchronized static void decrement(){
+		c--;
+	}
+	public static int getCounter(){
+		return c;
+	}
+}

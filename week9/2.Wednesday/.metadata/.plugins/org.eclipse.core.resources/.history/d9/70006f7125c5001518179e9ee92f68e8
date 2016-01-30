@@ -1,0 +1,9 @@
+
+@AnnotationInterface(
+		author = "", 
+		related = {}
+		)
+public class ClassWithAnnotation {
+	String name=ClassWithAnnotation.class.getCanonicalName();
+	
+}

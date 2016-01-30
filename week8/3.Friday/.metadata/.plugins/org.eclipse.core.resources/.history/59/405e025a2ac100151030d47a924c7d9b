@@ -1,0 +1,7 @@
+
+public static class Example {
+	public int valueOfLife;
+	public Example(int value){
+		valueOfLife=value;
+	}
+}
