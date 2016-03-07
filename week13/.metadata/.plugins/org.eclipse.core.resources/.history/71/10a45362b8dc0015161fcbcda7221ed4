@@ -1,0 +1,92 @@
+package droneDeliverySystem;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import basicClasses.DeliveryRequest;
+import basicClasses.Location;
+import basicClasses.Product;
+import basicClasses.SupplyRequest;
+
+public class Parser {
+	
+	public Request createSupplyRequest() {
+		Map<Product, Integer> products = new HashMap<>();
+		
+		System.out.println("LOLOLOL");
+		
+		UserInterface ui = new UserInterface();
+		
+		Date date = new Date();
+		
+		String[] coordinates = ui.askForLocation();
+		
+		Location location = new Location(Integer.getInteger(coordinates[0]), Integer.getInteger(coordinates[1]));
+		
+		while(ui.stopper() == "stop") {
+			products.put(new Product(ui.askForProductName(), Double.parseDouble(ui.askForProductQuantity())), Integer.getInteger(ui.askForHowMantProducts()));
+		}
+				
+		return (Request) new SupplyRequest(date, location, products);
+	}
+
+	public Request createDeliveryRequest() {
+		Map<Product, Integer> products = new HashMap<>();
+		
+		UserInterface ui = new UserInterface();
+		
+		Date date = new Date();
+		
+		String[] coordinates = ui.askForLocation();
+		
+		Location location = new Location(Integer.getInteger(coordinates[0]), Integer.getInteger(coordinates[1]));
+		
+		while(ui.stopper() == "stop") {
+			products.put(new Product(ui.askForProductName(), Double.parseDouble(ui.askForProductQuantity())), Integer.getInteger(ui.askForHowMantProducts()));
+		}
+		
+		return (Request) new DeliveryRequest(date, location, products);
+	}
+	
+	public void readFromFile(File file){
+		 try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+	            String line;
+	            while ((line = br.readLine()) != null) {
+	            	if(line.contains("delivery")==true){
+	            		String[] deliveryContent=line.split(" ");
+	            		Map<Product,Integer> products=new HashMap<>();
+	            		System.out.println(deliveryContent[5]);
+	            		int deliveryId=Integer.parseInt(deliveryContent[1]);
+	            		for(int i=5;i<=deliveryContent.length;i+=2){
+	            			products.put(new Product(deliveryContent[i],0), Integer.parseInt(deliveryContent[i+1]));
+	            		}
+	            		int locationX=Integer.parseInt(deliveryContent[4].substring(0,deliveryContent[4].indexOf(',')));
+	            		int locationY=Integer.parseInt(deliveryContent[4].substring(deliveryContent[4].indexOf(','),deliveryContent[4].length()-1));
+	            		Location location=new Location(locationX,locationY);
+	            		Date parsedDate = null;
+	            		try{
+	            		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+	            		    parsedDate = dateFormat.parse(deliveryContent[2]+deliveryContent[3]);
+	            		}catch(Exception e){//this generic but you can control another types of exception
+	            		}
+	            		DeliveryRequest dr=new DeliveryRequest(parsedDate
+	            				,location , products);
+	            		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	            		System.out.println("DEOIFDJIAEJFINEFAIO"+dr.getProducts());
+	            	}
+	            }
+	        }catch (IOException e) {
+
+	        }
+	}
+
+}

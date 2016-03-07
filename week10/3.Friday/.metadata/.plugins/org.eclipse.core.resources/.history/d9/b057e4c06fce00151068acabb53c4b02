@@ -1,0 +1,20 @@
+import java.io.File;
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		ArrayBlockingQueue<File> textFiles=new ArrayBlockingQueue<File>(1000);
+		Thread thread1=new Thread(new TxtFileFinder(textFiles));
+		Thread thread2=new Thread(new WordFinder("asd",textFiles));
+		Thread thread3=new Thread(new WordFinder("asd",textFiles));
+		thread1.start();
+		thread2.start();
+		thread3.start();
+		thread1.join();
+		thread2.join();
+		thread3.join();
+		System.out.println(WordFinder.findedWords);
+	}
+}

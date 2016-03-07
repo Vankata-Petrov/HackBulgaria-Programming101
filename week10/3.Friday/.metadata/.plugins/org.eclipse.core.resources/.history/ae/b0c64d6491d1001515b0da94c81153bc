@@ -1,0 +1,79 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class WebsiteCrawler2 {
+	private static ArrayBlockingQueue<String> hrefs = new ArrayBlockingQueue<>(10000);
+	private static String result;
+
+	public static void findNeedle(URL rootURL,String needle){
+		Thread[] threads = new Thread[10];
+		for (int i = 0; i < 10; i++) {
+			try {
+				threads[i] = new Thread(new Searcher(new URL("http://ebusiness.free.bg"),"abv"));
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			threads[i].start();
+		}
+		for(Thread thread:threads){
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private class Searcher implements Runnable {
+		private URL url;
+		private String needle;
+
+		public Searcher(URL url, String needle) {
+			this.url = url;
+			this.needle = needle;
+		}
+
+		@Override
+		public void run() {
+			try {
+				while (result == null) {
+					searchIndividual(url, needle);
+					url=new URL(hrefs.take());
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public void searchIndividual(URL url, String needle) throws Exception {
+			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+			String inputLine;
+			// System.out.println(url.toString());
+			while ((inputLine = in.readLine()) != null) {
+				if (inputLine.contains(needle)) {
+					result = url.toString();
+					return;
+				}
+			}
+			in.close();
+			Document doc = Jsoup.connect(url.toString()).get();
+			Elements links = doc.select("a[href]");
+			for (Element link : links) {
+				hrefs.add(link.attr("abs:href"));
+			}
+		}
+
+	}
+}

@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+/media/vankata/ARHIVE/Programing/HackBulgaria-Programming101/workspace/week13/1.Monday/.metadata/.plugins/org.eclipse.jdt.core
+2491047573.index

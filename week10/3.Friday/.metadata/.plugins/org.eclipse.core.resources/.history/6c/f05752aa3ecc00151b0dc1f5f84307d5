@@ -1,0 +1,30 @@
+import java.io.File;
+
+public class Main {
+
+	public static void main(String[] args) throws InterruptedException {
+		Thread thread1=new Thread(new Reader());
+		Thread thread2=new Thread(new Finder());
+		thread1.start();
+		thread2.start();
+		thread1.join();
+		thread2.join();
+		System.out.println(WordFinder.findedWords);
+	}
+	static class Reader implements Runnable{
+
+		@Override
+		public void run() {
+			TxtFileFinder.findFiles(new File("."));
+		}
+		
+	}
+	static class Finder implements Runnable{
+
+		@Override
+		public void run() {
+			WordFinder.checkInAllFiles("asd");
+		}
+		
+	}
+}

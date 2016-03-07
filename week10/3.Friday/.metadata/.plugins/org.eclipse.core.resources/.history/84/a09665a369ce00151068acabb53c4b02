@@ -1,0 +1,40 @@
+import java.io.File;
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+
+	public static void main(String[] args) throws InterruptedException {
+		Thread thread1=new Thread(new Reader());
+		Thread thread2=new Thread(new Finder());
+		thread1.start();
+		thread2.start();
+		thread1.join();
+		thread2.join();
+		System.out.println(WordFinder.findedWords);
+	}
+	static class Reader implements Runnable{
+		protected ArrayBlockingQueue<File> queue = null;
+
+	    public Reader() {
+	        this.queue =TxtFileFinder.textFiles ;
+	    }
+		@Override
+		public void run() {
+			TxtFileFinder.findFiles(new File("."));
+		}
+		
+	}
+	static class Finder implements Runnable{
+
+		protected ArrayBlockingQueue<?> queue = null;
+
+	    public Finder() {
+	        this.queue = TxtFileFinder.textFiles;
+	    }
+		@Override
+		public void run() {
+			WordFinder.checkInAllFiles("asd");
+		}
+		
+	}
+}

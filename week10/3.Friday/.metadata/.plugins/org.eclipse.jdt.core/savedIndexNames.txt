@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+D:\Programing\HackBulgaria-Programming101\workspace\week10\3.Friday\.metadata\.plugins\org.eclipse.jdt.core
+1883581368.index

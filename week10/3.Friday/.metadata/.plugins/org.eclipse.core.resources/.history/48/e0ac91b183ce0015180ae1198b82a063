@@ -1,0 +1,57 @@
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class TxtFileFinder implements Runnable{
+	private static ArrayBlockingQueue<File> textFiles;
+	static AtomicBoolean finished=new AtomicBoolean(false);
+	public TxtFileFinder(ArrayBlockingQueue<File> textFiles){
+		this.textFiles=textFiles;
+	}
+	void neshto(){FilenameFilter filter = new FilenameFilter() {
+	    public boolean accept(File dir, String name) {
+	        return name.endsWith(".txt");
+	    }
+	};
+
+	File folder = new File("/path/to/files");
+	File[] listOfFiles = folder.listFiles(filter);
+
+	for (int i = 0; i < listOfFiles.length; i++) {
+	    File file = listOfFiles[i];
+	   // String content = .readFileToString(file);
+	    // do something with the file
+	}}
+	public static void find(File root){
+		//findFiles(root);
+		//finished=true;
+	}
+	public static void findFiles(File root) throws InterruptedException {
+	    File[] listOfFiles = root.listFiles();
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	        String iName = listOfFiles[i].getName();
+	        if (listOfFiles[i].isFile()) {
+	            if (iName.endsWith(".txt") || iName.endsWith(".TXT")) {
+	            	System.out.println(listOfFiles[i]);
+	                textFiles.put(listOfFiles[i]);
+	            }
+	        }
+	        else if (listOfFiles[i].isDirectory()) {
+	            findFiles(listOfFiles[i]);
+	        }
+	    }
+	}
+	@Override
+	public void run() {
+		try {
+			findFiles(new File("/media/vankata/ARHIVE/Programing"));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    finished.getAndSet(true);
+		// TODO Auto-generated method stub
+		
+	}
+}

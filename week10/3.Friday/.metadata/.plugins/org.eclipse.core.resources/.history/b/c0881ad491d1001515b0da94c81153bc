@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+	class Searcher implements Runnable {
+		private URL url;
+		private String needle;
+
+		public Searcher(URL url, String needle) {
+			this.url = url;
+			this.needle = needle;
+		}
+
+		@Override
+		public void run() {
+			try {
+				while (result == null) {
+					searchIndividual(url, needle);
+					url=new URL(hrefs.take());
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public void searchIndividual(URL url, String needle) throws Exception {
+			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+			String inputLine;
+			// System.out.println(url.toString());
+			while ((inputLine = in.readLine()) != null) {
+				if (inputLine.contains(needle)) {
+					result = url.toString();
+					return;
+				}
+			}
+			in.close();
+			Document doc = Jsoup.connect(url.toString()).get();
+			Elements links = doc.select("a[href]");
+			for (Element link : links) {
+				hrefs.add(link.attr("abs:href"));
+			}
+		}
+
+	}
+}
